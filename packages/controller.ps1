@@ -30,7 +30,7 @@ function Test-OutputSheetName {
     }
 }
 function Test-LogsPath {
-    $logsPath = $config.settings.logsPath
+    $logsPath = $config.settings.logs.logsPath
     if (-not (Test-Path -Path $logsPath)) {
         New-Item -Path $logsPath -ItemType Directory -Force
         Write-Host "Folder created at $logsPath"
@@ -41,7 +41,7 @@ function Initialize-Controller {
     [XML]$developerConfig = Get-Content .\config\developerConfig.xml
     Test-LogsPath
     $logfileTimestamp = Get-Date -Format "ddMMyyy_HHmms"
-    $Global:logFilePath = "$($config.settings.logsPath)\Log_$($logfileTimestamp).log"
+    $Global:logFilePath = "$($config.settings.logs.logsPath)\Log_$($logfileTimestamp).log"
     New-Item -path $logFilePath
 
     Test-HeadingProperty

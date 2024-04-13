@@ -1,7 +1,10 @@
 <settings>
     <inputFilePath>E:\Work\Project Files\Woodie's\3.0\SKU Return Policy\Excel Script\Item Info 100823.xlsx</inputFilePath>
     <outputFilePath>E:\Work\Project Files\Woodie's\3.0\SKU Return Policy\Excel Script\output.xlsx</outputFilePath>
-    <logsPath>E:\Work\Project Files\Woodie's\3.0\SKU Return Policy\Excel Script\logs</logsPath>
+    <logs>
+        <logsPath>E:\Work\Project Files\Woodie's\3.0\SKU Return Policy\Excel Script\logs</logsPath>
+        <showOnlyErrors>0</showOnlyErrors>
+    </logs>
     <heading>
         <headingSize>1</headingSize>
         <headingFontFamily>Cambria</headingFontFamily>

@@ -23,6 +23,10 @@ foreach ($row in $data) {
         {
             $itemNo = $property.Value
             $columnNum++
+            if ($config.settings.logs.showOnlyErrors -eq 0)
+            {
+                Write-Log -Message "Processing Item No.: $($itemNo)"
+            }
             continue
         }
         $columnValue = $property.Value
@@ -51,6 +55,10 @@ foreach ($row in $data) {
         "$($config.settings.output.Field2Name)" = $finaHTML
     }
     $outputData += $outputRow
+    if ($config.settings.logs.showOnlyErrors -eq 0)
+    {
+        Write-Log -Message "Successfully Processed Item"
+    }
 }
 $outputData | Export-Excel -Path $config.settings.outputFilePath -WorksheetName "$($($config.settings.output.sheetName))" -AutoSize -ClearSheet
 Write-Log('Execution Complete')
