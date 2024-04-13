@@ -1,3 +1,4 @@
-SET mypath=%~dp0
-echo %mypath:~0,-1%
+cd %~d0 
+cd %~dp0
+Powershell.exe -executionpolicy remotesigned -File packages\main.ps1
 @pause

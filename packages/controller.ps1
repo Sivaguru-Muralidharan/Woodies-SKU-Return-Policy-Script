@@ -24,14 +24,22 @@ function Test-InputFile {
 function Test-OutputSheetName {
     $SheetName = $config.settings.output.sheetName
     $maxLength = [int16]$developerConfig.settings.output.sheetNameMaxLength
-    if($SheetName -gt $maxLength)
+    if($SheetName.Length -gt $maxLength)
     {
         Write-Log -Message "Output Sheet Name Cannot be greater than $($maxLength)" -Terminate $true
+    }
+}
+function Test-LogsPath {
+    $logsPath = $config.settings.logsPath
+    if (-not (Test-Path -Path $logsPath)) {
+        New-Item -Path $logsPath -ItemType Directory -Force
+        Write-Host "Folder created at $logsPath"
     }
 }
 function Initialize-Controller {
     [XML]$config = Get-Content .\config\config.xml
     [XML]$developerConfig = Get-Content .\config\developerConfig.xml
+    Test-LogsPath
     $logfileTimestamp = Get-Date -Format "ddMMyyy_HHmms"
     $Global:logFilePath = "$($config.settings.logsPath)\Log_$($logfileTimestamp).log"
     New-Item -path $logFilePath
