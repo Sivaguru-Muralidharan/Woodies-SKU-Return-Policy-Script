@@ -1,8 +1,10 @@
 Import-Module ImportExcel
 Import-Module .\packages\controller.ps1
+Import-Module .\packages\html.ps1
 [XML]$config = Get-Content .\config\config.xml
 
-InitModule
+Initialize-Controller
+Initialize-HTMLConfig
 
 try {
     $data = Import-Excel -Path $config.settings.inputFilePath
@@ -13,8 +15,7 @@ catch {
 $outputData = @()
 
 foreach ($row in $data) {
-    # Loop through each property (column) of the row object
-    $ReturnPolicyHTML = ''
+    $ReturnPolicy = ''
     $columnNum = 1
     $SpecificRuleExist = $false
     foreach ($property in $row.PSObject.Properties) {
@@ -36,21 +37,20 @@ foreach ($row in $data) {
         }
         $SpecificRuleExist = $true
         $columnNum++
-        $ReturnPolicyHTML += "<h$($config.settings.heading)>$($property.Name)</h$($config.settings.heading)>"
-        $ReturnPolicyHTML += "<p>"
+        $ReturnPolicy += Add-PreContentTags
         $lines = $columnValue.Split([Environment]::NewLine)
         foreach($line in $lines)
         {
-            $ReturnPolicyHTML = $ReturnPolicyHTML + $line+"<br>"  
+            $ReturnPolicy += $line+"$(Add-BreakTag)" 
         }
-        $ReturnPolicyHTML = $ReturnPolicyHTML + "<hr>"
-        $ReturnPolicyHTML += "</p>"
+        $ReturnPolicy += Add-PostContentTags
     }
+    $finaHTML = Get-FinalHTML -ReturnPolicy $ReturnPolicy -compress $config.settings.output.compress
     $outputRow = [PSCustomObject]@{
-        "ItemNo" = $itemNo
-        "ReturnPolicy" = $ReturnPolicyHTML
+        "$($config.settings.output.Field1Name)" = $itemNo
+        "$($config.settings.output.Field2Name)" = $finaHTML
     }
     $outputData += $outputRow
 }
-$outputData | Export-Excel -Path $config.settings.outputFilePath -WorksheetName "Sheet1" -AutoSize -ClearSheet
+$outputData | Export-Excel -Path $config.settings.outputFilePath -WorksheetName "$($($config.settings.output.sheetName))" -AutoSize -ClearSheet
 Write-Log('Execution Complete')

@@ -2,6 +2,14 @@
     <inputFilePath>E:\Work\Project Files\Woodie's\3.0\SKU Return Policy\Excel Script\Item Info 100823.xlsx</inputFilePath>
     <outputFilePath>E:\Work\Project Files\Woodie's\3.0\SKU Return Policy\Excel Script\output.xlsx</outputFilePath>
     <logsPath>E:\Work\Project Files\Woodie's\3.0\SKU Return Policy\Excel Script\logs</logsPath>
-    <!--HTML Heading Values 1 to 6-->
-    <heading>1</heading>
+    <heading>
+        <headingSize>1</headingSize>
+        <headingFontFamily>Cambria</headingFontFamily>
+    </heading>
+    <output>
+        <Field1Name>ItemNo</Field1Name>
+        <Field2Name>ReturnPolicy</Field2Name>
+        <compress>1</compress>
+        <sheetName>ReturnPolicySheet</sheetName>
+    </output>
 </settings>
